@@ -1,9 +1,10 @@
 const routes = require("express").Router();
+const authMiddleware = require("./middleware/auth");
 const SessionController = require("./controllers/SessionController");
-const { user, sequelize } = require ('./models');
 
-const usuario=sequelize.define("usuario",{ name: 'luiza',email:'luiza@gmail.com',password_hash: '1234'});
-console.log(usuario)
-routes.post('/sessions',SessionController.store)
-
+routes.post('/sessions',SessionController.store);
+routes.use(authMiddleware);
+routes.get('/dashboard',(req,res)=>{
+    return res.status(200).send();
+})
 module.exports = routes;
